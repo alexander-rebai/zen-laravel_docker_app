@@ -5,6 +5,12 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+ARG AIKIDO_VERSION=1.5.4
+RUN curl -L -o /tmp/aikido-php-firewall.deb \
+    "https://github.com/AikidoSec/firewall-php/releases/download/v${AIKIDO_VERSION}/aikido-php-firewall.$(uname -m).deb" \
+    && dpkg -i /tmp/aikido-php-firewall.deb \
+    && rm /tmp/aikido-php-firewall.deb
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
@@ -20,6 +26,10 @@ RUN composer dump-autoload --optimize \
 
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Aikido Zen: Set AIKIDO_TOKEN at runtime via docker run -e or docker-compose environment
+# ENV AIKIDO_TOKEN="set-at-runtime"
+# ENV AIKIDO_BLOCK="false"
 
 EXPOSE 9000
 ENTRYPOINT ["entrypoint.sh"]
