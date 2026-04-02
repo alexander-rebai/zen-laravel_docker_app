@@ -6,6 +6,9 @@ services:
     container_name: laravel-app
     restart: unless-stopped
     working_dir: /var/www
+    environment:
+      AIKIDO_TOKEN: "${AIKIDO_TOKEN}"
+      AIKIDO_BLOCK: "${AIKIDO_BLOCK:-false}"
     volumes:
       - .:/var/www
     depends_on:
