@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
 
 ARG AIKIDO_VERSION=1.5.4
 RUN curl -L -o /tmp/aikido-php-firewall.deb \
-    "https://github.com/AikidoSec/firewall-php/releases/download/v${AIKIDO_VERSION}/aikido-php-firewall.$(uname -m).deb" \
+    "https://github.com/AikidoSec/firewall-php/releases/download/v1.5.4/aikido-php-firewall.$(uname -m).deb" \
     && dpkg -i /tmp/aikido-php-firewall.deb \
     && rm /tmp/aikido-php-firewall.deb
 
